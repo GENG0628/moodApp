@@ -29,9 +29,8 @@ flutter --version
 
 当前 `flutter doctor -v` 剩余问题：
 
-- Android SDK Command-line Tools 缺失。
-- Android licenses 还没有接受。
-- 网络检查访问 `https://maven.google.com/` 超时，后续构建时可能需要配置网络代理或镜像。
+- 网络检查访问 `https://maven.google.com/` 或 `https://github.com/` 可能超时。
+- Visual Studio 未安装，但第一版只做 Android，可以忽略。
 
 暂时不需要安装 Visual Studio，因为第一版只做 Android，不做 Windows 桌面应用。
 
@@ -204,7 +203,32 @@ build\app\outputs\flutter-apk\app-release.apk
 
 如果后续要上架华为应用市场，需要再接入华为账号、华为推送或华为支付，但这些不是第一版目标。
 
-## 9. VS Code 终端找不到 flutter 的处理
+## 9. 当前构建处理
+
+由于当前网络访问 `services.gradle.org` 和 `maven.google.com` 不稳定，Android 构建已配置国内镜像：
+
+- Gradle wrapper 使用阿里云 Gradle 镜像。
+- Android Gradle 插件和 Maven 依赖优先使用阿里云 Maven 镜像。
+
+由于当前项目路径包含中文字符：
+
+```text
+D:\Users\18522\Documents\心情app
+```
+
+Android Gradle 已在 `android/gradle.properties` 中添加：
+
+```properties
+android.overridePathCheck=true
+```
+
+这样当前路径可以构建 APK。长期建议项目迁移到纯英文路径，例如：
+
+```text
+D:\Code\moodApp
+```
+
+## 10. VS Code 终端找不到 flutter 的处理
 
 如果 VS Code 终端提示：
 

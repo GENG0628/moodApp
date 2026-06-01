@@ -11,6 +11,19 @@
 - 数据默认保存在手机本地，卸载 App 前需要导出备份。
 - 代码架构按 feature-first + clean architecture 组织，方便后续接入服务器和 iOS。
 
+## 当前实现状态
+
+已完成 Flutter Android 项目骨架和第一版可交互界面：
+
+- 首页：今日心情、最近记录、记录入口。
+- 记录弹窗：选择心情、强度、标签和文字。
+- 日历：近 14 天心情格子和时间线。
+- 统计：心情分布和标签观察占位。
+- 我的：隐私锁、提醒、导出、本地模式入口占位。
+- Android debug APK 已可构建。
+
+当前记录数据还是内存态，关闭 App 后不会保留。下一步会接入本地数据库，把记录真正保存在手机里。
+
 ## 文档索引
 
 - [产品 PRD](docs/PRD.md)
@@ -39,3 +52,36 @@
 - 评论、贴纸回应和每日问答。
 - iOS 版本。
 - AI 周报、月报和写作提示。
+
+## 本地验证
+
+静态分析：
+
+```bash
+dart analyze
+```
+
+测试：
+
+```bash
+flutter test
+```
+
+构建 Android debug APK：
+
+```bash
+flutter build apk --debug
+```
+
+当前 APK 输出位置：
+
+```text
+build\app\outputs\flutter-apk\app-debug.apk
+```
+
+如果华为手机已开启 USB 调试并被识别，可以运行：
+
+```bash
+flutter devices
+flutter run
+```

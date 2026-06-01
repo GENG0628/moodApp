@@ -4,6 +4,21 @@
 日期：2026-05-31  
 当前阶段：本地单机 Android 优先
 
+## 0. 当前实现状态
+
+截至 2026-06-01：
+
+- Flutter Android 项目已创建。
+- Android package id 已设置为 `com.geng.moodapp`。
+- App 显示名已设置为 `心情App`。
+- 第一版首页、记录弹窗、日历、统计、我的页面已完成内存态原型。
+- `dart analyze` 通过。
+- `flutter test` 通过。
+- `flutter build apk --debug` 通过。
+- debug APK 输出位置：`build\app\outputs\flutter-apk\app-debug.apk`。
+
+注意：当前记录还没有持久化，关闭 App 后新增记录会丢失。下一步需要接入本地数据库。
+
 ## 1. 结论
 
 第一版建议做成 Flutter Android APK，本地 SQLite 存储，不依赖服务器。这样可以最快在华为 Pura/P70 Pro+ 真机上验证核心体验：记录心情、写内容、看日历、看统计、设置提醒。
@@ -35,6 +50,8 @@
 | HarmonyOS NEXT / HarmonyOS 5+ 原生鸿蒙 | 需要评估鸿蒙原生 HAP 方案 |
 
 第一版不要依赖 Google 服务，因为华为手机通常没有 GMS。所有核心功能必须在无 Google Play 服务环境下工作。
+
+当前项目仍放在中文路径 `D:\Users\18522\Documents\心情app`。Android Gradle 已通过 `android.overridePathCheck=true` 允许构建，但长期建议迁移到纯英文路径，例如 `D:\Code\moodApp`，减少 Windows 下 Android/Flutter 工具链兼容风险。
 
 ## 3. 第一版范围
 
