@@ -12,12 +12,16 @@
 - Android package id 已设置为 `com.geng.moodapp`。
 - App 显示名已设置为 `心情App`。
 - 第一版首页、记录弹窗、日历、统计、我的页面已完成内存态原型。
+- UI 已调整为柔和贴纸风格，修复记录弹窗和日历小格子的 overflow 问题。
+- 日历已预留情侣模式：每天展示“我”和“TA”两个心情槽位。
 - `dart analyze` 通过。
 - `flutter test` 通过。
 - `flutter build apk --debug` 通过。
 - debug APK 输出位置：`build\app\outputs\flutter-apk\app-debug.apk`。
 
 注意：当前记录还没有持久化，关闭 App 后新增记录会丢失。下一步需要接入本地数据库。
+
+当前情侣模式只是本地数据结构和 UI 预留，不代表已经支持两台手机互通。后续开通通讯时，需要服务器同步对方记录，再写入 TA 槽位。
 
 ## 1. 结论
 

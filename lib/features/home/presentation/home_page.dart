@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../../shared/widgets/mood_sticker.dart';
+import '../../../shared/widgets/section_card.dart';
 import '../../calendar/presentation/calendar_page.dart';
 import '../../mood_entry/domain/mood_entry.dart';
 import '../../mood_entry/domain/mood_option.dart';
 import '../../mood_entry/presentation/mood_editor_sheet.dart';
 import '../../settings/presentation/settings_page.dart';
 import '../../statistics/presentation/statistics_page.dart';
-import '../../../shared/widgets/section_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,12 +20,22 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   final _entries = <MoodEntry>[
     MoodEntry(
-      id: 'demo-1',
+      id: 'demo-self',
+      owner: EntryOwner.self,
       mood: moodOptions[1],
       intensity: 3,
       content: '今天先把产品思路和开发环境整理清楚，节奏不错。',
       tags: const ['工作', '学习'],
       createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+    ),
+    MoodEntry(
+      id: 'demo-partner',
+      owner: EntryOwner.partner,
+      mood: moodOptions[0],
+      intensity: 4,
+      content: '情侣模式预留：以后对方的心情会同步到同一天的 TA 槽位。',
+      tags: const ['情侣', '同步'],
+      createdAt: DateTime.now().subtract(const Duration(hours: 1)),
     ),
   ];
 
@@ -33,7 +44,8 @@ class _HomePageState extends State<HomePage> {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      showDragHandle: true,
+      showDragHandle: false,
+      backgroundColor: Colors.transparent,
       builder: (context) => const MoodEditorSheet(),
     );
 
@@ -46,6 +58,7 @@ class _HomePageState extends State<HomePage> {
         0,
         MoodEntry(
           id: DateTime.now().microsecondsSinceEpoch.toString(),
+          owner: draft.owner,
           mood: draft.mood,
           intensity: draft.intensity,
           content: draft.content,
@@ -69,19 +82,20 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('心情记录'),
         actions: [
-          IconButton(
+          IconButton.filledTonal(
             tooltip: '新增记录',
             onPressed: _createEntry,
-            icon: const Icon(Icons.add_circle_outline),
+            icon: const Icon(Icons.add),
           ),
+          const SizedBox(width: 12),
         ],
       ),
       body: IndexedStack(index: _currentIndex, children: pages),
       floatingActionButton: _currentIndex == 0
           ? FloatingActionButton.extended(
               onPressed: _createEntry,
-              icon: const Icon(Icons.edit_note),
-              label: const Text('记录'),
+              icon: const Icon(Icons.edit_outlined),
+              label: const Text('写心情'),
             )
           : null,
       bottomNavigationBar: NavigationBar(
@@ -122,56 +136,17 @@ class _HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final latest = entries.isEmpty ? null : entries.first;
+    final latestSelf = _latestByOwner(EntryOwner.self);
+    final latestPartner = _latestByOwner(EntryOwner.partner);
     final theme = Theme.of(context);
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
       children: [
-        SectionCard(
-          child: Row(
-            children: [
-              Container(
-                width: 72,
-                height: 72,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color:
-                      latest?.mood.color.withValues(alpha: .16) ??
-                      theme.colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  latest?.mood.emoji ?? '🙂',
-                  style: const TextStyle(fontSize: 38),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      latest == null ? '今天还没有记录' : '最近一次：${latest.mood.label}',
-                      style: theme.textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      latest == null
-                          ? '先用一个表情记下此刻状态。'
-                          : '强度 ${latest.intensity}/5 · ${latest.tags.join('、')}',
-                      style: theme.textTheme.bodyMedium,
-                    ),
-                  ],
-                ),
-              ),
-              IconButton(
-                tooltip: '记录心情',
-                onPressed: onCreateEntry,
-                icon: const Icon(Icons.add),
-              ),
-            ],
-          ),
+        _HeroPanel(
+          latestSelf: latestSelf,
+          latestPartner: latestPartner,
+          onCreateEntry: onCreateEntry,
         ),
         const SizedBox(height: 14),
         Row(
@@ -180,7 +155,7 @@ class _HomeTab extends StatelessWidget {
               child: _MetricTile(
                 label: '总记录',
                 value: entries.length.toString(),
-                icon: Icons.event_note,
+                icon: Icons.event_note_outlined,
               ),
             ),
             const SizedBox(width: 12),
@@ -207,12 +182,159 @@ class _HomeTab extends StatelessWidget {
     );
   }
 
+  MoodEntry? _latestByOwner(EntryOwner owner) {
+    final filtered = entries.where((entry) => entry.owner == owner);
+    return filtered.isEmpty ? null : filtered.first;
+  }
+
   String _averageScore(List<MoodEntry> entries) {
     if (entries.isEmpty) {
       return '-';
     }
     final total = entries.fold<int>(0, (sum, entry) => sum + entry.mood.score);
     return (total / entries.length).toStringAsFixed(1);
+  }
+}
+
+class _HeroPanel extends StatelessWidget {
+  const _HeroPanel({
+    required this.latestSelf,
+    required this.latestPartner,
+    required this.onCreateEntry,
+  });
+
+  final MoodEntry? latestSelf;
+  final MoodEntry? latestPartner;
+  final VoidCallback onCreateEntry;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFFEAF8F6), Color(0xFFFFF4D6), Color(0xFFFFE9EF)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(26),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '今天的心情档案',
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                FilledButton.tonalIcon(
+                  onPressed: onCreateEntry,
+                  icon: const Icon(Icons.add),
+                  label: const Text('记录'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: _OwnerMoodCard(
+                    title: '我',
+                    entry: latestSelf,
+                    fallback: '还没记录',
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _OwnerMoodCard(
+                    title: 'TA',
+                    entry: latestPartner,
+                    fallback: '等待同步',
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              '后续开通通讯后，双方记录会分别落到日历同一天的两个槽位。',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurface.withValues(alpha: .68),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OwnerMoodCard extends StatelessWidget {
+  const _OwnerMoodCard({
+    required this.title,
+    required this.entry,
+    required this.fallback,
+  });
+
+  final String title;
+  final MoodEntry? entry;
+  final String fallback;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: .78),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            if (entry == null)
+              Container(
+                width: 46,
+                height: 46,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEAF1F0),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(Icons.more_horiz),
+              )
+            else
+              MoodSticker(mood: entry!.mood, owner: entry!.owner, size: 46),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: theme.textTheme.labelLarge),
+                  const SizedBox(height: 4),
+                  Text(
+                    entry?.mood.label ?? fallback,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -266,7 +388,7 @@ class _EntryTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(entry.mood.emoji, style: const TextStyle(fontSize: 30)),
+          MoodSticker(mood: entry.mood, owner: entry.owner, size: 48),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -276,7 +398,7 @@ class _EntryTile extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        entry.mood.label,
+                        '${entry.owner.label} · ${entry.mood.label}',
                         style: theme.textTheme.titleMedium,
                       ),
                     ),

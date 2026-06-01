@@ -223,3 +223,21 @@ abstract class MoodEntryRepository {
 ```
 
 后续云同步只新增实现，不改变页面调用方式。
+
+## 11. 情侣日历预留
+
+当前 `MoodEntry` 已包含记录归属：
+
+```dart
+enum EntryOwner {
+  self,
+  partner,
+}
+```
+
+日历页按日期和 `EntryOwner` 分别查找记录，每天展示两个槽位：
+
+- `self`：当前用户自己的心情。
+- `partner`：后续服务器同步来的对方心情。
+
+第一版允许本地演示两个槽位，但真实双端通信仍需要后端服务处理账号、关系绑定、权限和同步。

@@ -7,6 +7,7 @@ class MoodOption {
     required this.emoji,
     required this.score,
     required this.color,
+    required this.background,
   });
 
   final String id;
@@ -14,42 +15,48 @@ class MoodOption {
   final String emoji;
   final int score;
   final Color color;
+  final Color background;
 }
 
 const moodOptions = [
   MoodOption(
     id: 'great',
     label: '很好',
-    emoji: '😄',
+    emoji: '😆',
     score: 10,
-    color: Color(0xFF2F9E44),
+    color: Color(0xFFFFB84D),
+    background: Color(0xFFFFEDBE),
   ),
   MoodOption(
     id: 'good',
     label: '不错',
     emoji: '🙂',
     score: 8,
-    color: Color(0xFF3C8DBC),
+    color: Color(0xFFFF8DA1),
+    background: Color(0xFFFFD7DE),
   ),
   MoodOption(
     id: 'calm',
     label: '平静',
     emoji: '😌',
     score: 6,
-    color: Color(0xFF7E6B8F),
+    color: Color(0xFF78B56B),
+    background: Color(0xFFDDF2D8),
   ),
   MoodOption(
     id: 'tired',
     label: '疲惫',
     emoji: '😮‍💨',
     score: 4,
-    color: Color(0xFF8A7A4E),
+    color: Color(0xFF7AB6D9),
+    background: Color(0xFFD9F0FF),
   ),
   MoodOption(
     id: 'sad',
     label: '低落',
     emoji: '😔',
     score: 2,
-    color: Color(0xFF6C757D),
+    color: Color(0xFF9B918C),
+    background: Color(0xFFE7E0DC),
   ),
 ];

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mood_app/app/app.dart';
@@ -17,7 +16,7 @@ void main() {
   testWidgets('can open the mood editor', (WidgetTester tester) async {
     await tester.pumpWidget(const MoodApp());
 
-    await tester.tap(find.byIcon(Icons.edit_note));
+    await tester.tap(find.text('写心情'));
     await tester.pumpAndSettle();
 
     expect(find.text('记录此刻心情'), findsOneWidget);

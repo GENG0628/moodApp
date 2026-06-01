@@ -1,8 +1,18 @@
 import 'mood_option.dart';
 
+enum EntryOwner {
+  self('我'),
+  partner('TA');
+
+  const EntryOwner(this.label);
+
+  final String label;
+}
+
 class MoodEntry {
   const MoodEntry({
     required this.id,
+    required this.owner,
     required this.mood,
     required this.intensity,
     required this.content,
@@ -11,6 +21,7 @@ class MoodEntry {
   });
 
   final String id;
+  final EntryOwner owner;
   final MoodOption mood;
   final int intensity;
   final String content;
@@ -20,12 +31,14 @@ class MoodEntry {
 
 class MoodEntryDraft {
   const MoodEntryDraft({
+    required this.owner,
     required this.mood,
     required this.intensity,
     required this.content,
     required this.tags,
   });
 
+  final EntryOwner owner;
   final MoodOption mood;
   final int intensity;
   final String content;
