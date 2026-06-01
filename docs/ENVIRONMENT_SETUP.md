@@ -203,3 +203,48 @@ build\app\outputs\flutter-apk\app-release.apk
 - 生物识别。
 
 如果后续要上架华为应用市场，需要再接入华为账号、华为推送或华为支付，但这些不是第一版目标。
+
+## 9. VS Code 终端找不到 flutter 的处理
+
+如果 VS Code 终端提示：
+
+```text
+flutter: 无法将“flutter”项识别为 cmdlet、函数、脚本文件或可运行程序的名称
+```
+
+说明 VS Code 终端还没有刷新 Windows 环境变量。当前 Flutter 已经写入用户 PATH：
+
+```text
+C:\Users\18522\Downloads\flutter_windows_3.44.0-stable\flutter\bin
+```
+
+处理方式：
+
+1. 关闭所有 VS Code 窗口。
+2. 重新打开 VS Code。
+3. 打开项目目录：
+
+```text
+D:\Users\18522\Documents\心情app
+```
+
+4. 新建终端后执行：
+
+```bash
+flutter --version
+```
+
+如果仍然找不到，可以在当前 PowerShell 终端临时执行：
+
+```powershell
+$env:Path = "C:\Users\18522\Downloads\flutter_windows_3.44.0-stable\flutter\bin;C:\Users\18522\AppData\Local\Android\Sdk\platform-tools;D:\Softs\AndroidStudio\jbr\bin;$env:Path"
+flutter --version
+```
+
+如果 VS Code 终端顶部一直出现 PowerShell profile 执行策略报错，可以执行：
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+输入 `Y` 确认即可。
