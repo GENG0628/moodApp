@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../shared/widgets/mood_sticker.dart';
 import '../../../shared/widgets/section_card.dart';
@@ -148,7 +149,7 @@ class _CalendarHeader extends StatelessWidget {
       children: [
         IconButton.filledTonal(
           onPressed: () {},
-          icon: const Icon(Icons.chevron_left),
+          icon: const Icon(LucideIcons.chevronLeft),
         ),
         Expanded(
           child: Column(
@@ -165,7 +166,7 @@ class _CalendarHeader extends StatelessWidget {
         ),
         IconButton.filledTonal(
           onPressed: () {},
-          icon: const Icon(Icons.insights_outlined),
+          icon: const Icon(LucideIcons.chartLine),
         ),
       ],
     );

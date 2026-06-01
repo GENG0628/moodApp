@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../features/mood_entry/domain/mood_entry.dart';
 import '../../features/mood_entry/domain/mood_option.dart';
@@ -44,9 +45,12 @@ class MoodSticker extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Center(
-            child: Text(
-              mood.emoji,
-              style: TextStyle(fontSize: size * .52, height: 1),
+            child: SvgPicture.asset(
+              mood.assetPath,
+              width: size * .88,
+              height: size * .88,
+              fit: BoxFit.contain,
+              semanticsLabel: mood.label,
             ),
           ),
           if (owner != null)

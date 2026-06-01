@@ -14,6 +14,8 @@
 - 第一版首页、记录弹窗、日历、统计、我的页面已完成内存态原型。
 - UI 已调整为柔和贴纸风格，修复记录弹窗和日历小格子的 overflow 问题。
 - 日历已预留情侣模式：每天展示“我”和“TA”两个心情槽位。
+- 功能图标已切换为 `lucide_icons_flutter`。
+- 心情表情已从系统 emoji 切换为项目内原创 SVG 贴纸。
 - `dart analyze` 通过。
 - `flutter test` 通过。
 - `flutter build apk --debug` 通过。

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../shared/widgets/mood_sticker.dart';
 import '../../../shared/widgets/section_card.dart';
@@ -85,7 +86,7 @@ class _HomePageState extends State<HomePage> {
           IconButton.filledTonal(
             tooltip: '新增记录',
             onPressed: _createEntry,
-            icon: const Icon(Icons.add),
+            icon: const Icon(LucideIcons.plus),
           ),
           const SizedBox(width: 12),
         ],
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: _currentIndex == 0
           ? FloatingActionButton.extended(
               onPressed: _createEntry,
-              icon: const Icon(Icons.edit_outlined),
+              icon: const Icon(LucideIcons.edit2),
               label: const Text('写心情'),
             )
           : null,
@@ -103,23 +104,23 @@ class _HomePageState extends State<HomePage> {
         onDestinationSelected: (index) => setState(() => _currentIndex = index),
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
+            icon: Icon(LucideIcons.home),
+            selectedIcon: Icon(LucideIcons.home),
             label: '首页',
           ),
           NavigationDestination(
-            icon: Icon(Icons.calendar_month_outlined),
-            selectedIcon: Icon(Icons.calendar_month),
+            icon: Icon(LucideIcons.calendarDays),
+            selectedIcon: Icon(LucideIcons.calendarDays),
             label: '日历',
           ),
           NavigationDestination(
-            icon: Icon(Icons.bar_chart_outlined),
-            selectedIcon: Icon(Icons.bar_chart),
+            icon: Icon(LucideIcons.chartColumnBig),
+            selectedIcon: Icon(LucideIcons.chartColumnBig),
             label: '统计',
           ),
           NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings),
+            icon: Icon(LucideIcons.settings2),
+            selectedIcon: Icon(LucideIcons.settings2),
             label: '我的',
           ),
         ],
@@ -155,7 +156,7 @@ class _HomeTab extends StatelessWidget {
               child: _MetricTile(
                 label: '总记录',
                 value: entries.length.toString(),
-                icon: Icons.event_note_outlined,
+                icon: LucideIcons.notebookPen,
               ),
             ),
             const SizedBox(width: 12),
@@ -163,7 +164,7 @@ class _HomeTab extends StatelessWidget {
               child: _MetricTile(
                 label: '平均心情',
                 value: _averageScore(entries),
-                icon: Icons.show_chart,
+                icon: LucideIcons.chartLine,
               ),
             ),
           ],
@@ -237,7 +238,7 @@ class _HeroPanel extends StatelessWidget {
                 ),
                 FilledButton.tonalIcon(
                   onPressed: onCreateEntry,
-                  icon: const Icon(Icons.add),
+                  icon: const Icon(LucideIcons.plus),
                   label: const Text('记录'),
                 ),
               ],
@@ -309,7 +310,7 @@ class _OwnerMoodCard extends StatelessWidget {
                   color: const Color(0xFFEAF1F0),
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: const Icon(Icons.more_horiz),
+                child: const Icon(LucideIcons.sparkles),
               )
             else
               MoodSticker(mood: entry!.mood, owner: entry!.owner, size: 46),

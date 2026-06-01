@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../shared/widgets/mood_sticker.dart';
+import '../../../shared/widgets/section_card.dart';
 import '../../mood_entry/domain/mood_entry.dart';
 import '../../mood_entry/domain/mood_option.dart';
-import '../../../shared/widgets/section_card.dart';
 
 class StatisticsPage extends StatelessWidget {
   const StatisticsPage({super.key, required this.entries});
@@ -51,7 +53,7 @@ class StatisticsPage extends StatelessWidget {
                   children: [
                     for (final tag in _topTags())
                       Chip(
-                        avatar: const Icon(Icons.tag, size: 16),
+                        avatar: const Icon(LucideIcons.tag, size: 16),
                         label: Text(tag),
                       ),
                   ],
@@ -93,10 +95,15 @@ class _MoodBar extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
-          width: 72,
-          child: Text(
-            '${mood.emoji} ${mood.label}',
-            overflow: TextOverflow.ellipsis,
+          width: 84,
+          child: Row(
+            children: [
+              MoodSticker(mood: mood, size: 28),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(mood.label, overflow: TextOverflow.ellipsis),
+              ),
+            ],
           ),
         ),
         const SizedBox(width: 10),

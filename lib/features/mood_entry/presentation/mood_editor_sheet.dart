@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../shared/widgets/mood_sticker.dart';
 import '../domain/mood_entry.dart';
@@ -81,7 +82,7 @@ class _MoodEditorSheetState extends State<MoodEditorSheet> {
                     IconButton.filledTonal(
                       tooltip: '关闭',
                       onPressed: () => Navigator.of(context).pop(),
-                      icon: const Icon(Icons.close),
+                      icon: const Icon(LucideIcons.x),
                     ),
                   ],
                 ),
@@ -91,12 +92,12 @@ class _MoodEditorSheetState extends State<MoodEditorSheet> {
                     ButtonSegment(
                       value: EntryOwner.self,
                       label: Text('我'),
-                      icon: Icon(Icons.person_outline),
+                      icon: Icon(LucideIcons.user2),
                     ),
                     ButtonSegment(
                       value: EntryOwner.partner,
                       label: Text('TA'),
-                      icon: Icon(Icons.favorite_border),
+                      icon: Icon(LucideIcons.heart),
                     ),
                   ],
                   selected: {_owner},
@@ -134,7 +135,7 @@ class _MoodEditorSheetState extends State<MoodEditorSheet> {
                         style: theme.textTheme.titleMedium,
                       ),
                     ),
-                    const Icon(Icons.speed, size: 20),
+                    const Icon(LucideIcons.gauge, size: 20),
                   ],
                 ),
                 Slider(
@@ -178,7 +179,7 @@ class _MoodEditorSheetState extends State<MoodEditorSheet> {
                   height: 54,
                   child: FilledButton.icon(
                     onPressed: _save,
-                    icon: const Icon(Icons.check),
+                    icon: const Icon(LucideIcons.check),
                     label: const Text('保存记录'),
                   ),
                 ),
