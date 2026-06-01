@@ -23,9 +23,17 @@ flutter --version
 | Android SDK | 已安装，位置：`C:\Users\18522\AppData\Local\Android\Sdk` |
 | ADB | 已安装，已写入用户 PATH |
 | Java | Android Studio 自带 JBR 已安装，已写入用户 PATH |
-| Flutter | 未找到 |
+| Flutter | 已安装并加入用户 PATH，位置：`C:\Users\18522\Downloads\flutter_windows_3.44.0-stable\flutter` |
 
-因此现在主要还缺 Flutter SDK。Android Studio 和 Android SDK 已经装好。
+因此 Flutter、Android Studio 和 Android SDK 已经装好。
+
+当前 `flutter doctor -v` 剩余问题：
+
+- Android SDK Command-line Tools 缺失。
+- Android licenses 还没有接受。
+- 网络检查访问 `https://maven.google.com/` 超时，后续构建时可能需要配置网络代理或镜像。
+
+暂时不需要安装 Visual Studio，因为第一版只做 Android，不做 Windows 桌面应用。
 
 ## 2. 需要安装的软件
 
@@ -45,7 +53,7 @@ flutter --version
 
 ## 3. Flutter 安装思路
 
-Windows 上建议：
+当前 Flutter 已安装。若后续需要重装，Windows 上建议：
 
 1. 从 Flutter 官方网站下载 Windows 版 SDK。
 2. 解压到固定目录，例如：
@@ -77,6 +85,17 @@ flutter doctor
 - Android SDK Command-line Tools 已安装。
 - Android SDK Platform-Tools 已安装。
 - 至少安装一个较新的 Android SDK Platform。
+
+当前还需要在 Android Studio 中补装 Command-line Tools：
+
+```text
+Android Studio
+  -> More Actions 或 Settings
+  -> SDK Manager
+  -> SDK Tools
+  -> 勾选 Android SDK Command-line Tools (latest)
+  -> Apply
+```
 
 接受 Android licenses：
 
